@@ -3788,8 +3788,10 @@ function makeRpc(worker) {
             mark("REBOOT-REQUIRED", (committed2 ? "TWO aliased pairs are live (0x80 rthdr " + "and 0x100 pktopts). " : "") + "do not keep browsing and do not close the "
                 + "browser normally. power the console off and back on.");
             try {
-                stateEl.textContent = "REBOOT THE CONSOLE";
-                stateEl.className = "bad";
+                stateEl.textContent = payloadRunning
+                    ? "GOLDHEN LOADED -- REBOOT BEFORE NEXT HOST RUN"
+                    : "REBOOT THE CONSOLE";
+                stateEl.className = payloadRunning ? "warn" : "bad";
             } catch (e) { }
         } else if (repaired && cleanupDone) {
             mark("SAFE-TO-EXIT", "chunkX=freed-once-by-fd" + pktoptsTwins[0]
@@ -3806,10 +3808,10 @@ function makeRpc(worker) {
                     : "") + ". See the stage 8/9/10 marks for what is left.");
             try {
                 stateEl.textContent = payloadRunning
-                    ? "BERHASIL -- Tekan tombol PS untuk keluar"
-                    : kpatched ? "ROOT + KERNEL PATCHED"
-                    : jailbroken ? "ROOT"
-                    : "REPAIRED";
+                    ? "GOLDHEN LOADED SUCCESSFULLY"
+                    : kpatched ? "ROOT + KERNEL PATCHED -- NO REBOOT"
+                    : jailbroken ? "ROOT -- NO REBOOT NEEDED"
+                    : "REPAIRED -- NO REBOOT NEEDED";
                 stateEl.className = "ok";
             } catch (e) { }
         }
